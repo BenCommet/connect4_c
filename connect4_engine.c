@@ -129,7 +129,7 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
 	if(length_to_win < 1){
 		return -1;
 	}
-	if(num_rows == 0 || num_columns == 0){
+	if(num_rows < 1 || num_columns < 1){
 		return -1;
 	}
 	int horizontal = check_horizontal(num_rows, num_columns, length_to_win, array);

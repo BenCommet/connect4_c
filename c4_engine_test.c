@@ -75,7 +75,7 @@ void vertical_edge_case(CuTest *tc) {
 
 
   answer = winner(num_rows, num_columns, 3, array);
-  CuAssertIntEquals_Msg(tc, "0 for rum_rows", 0, answer);
+  CuAssertIntEquals_Msg(tc, "0's along right", 0, answer);
 }
 
 void failure_no_rows(CuTest *tc) {
@@ -87,7 +87,7 @@ void failure_no_rows(CuTest *tc) {
   ct_initialize(num_rows, num_columns, array);
 
   answer = winner(num_rows, num_columns, 4, array);
-  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+  CuAssertIntEquals_Msg(tc, "improper row number", -1, answer);
 }
 
 void failure_no_columns(CuTest *tc) {
@@ -99,7 +99,7 @@ void failure_no_columns(CuTest *tc) {
   ct_initialize(num_rows, num_columns, array);
 
   answer = winner(num_rows, num_columns, 4, array);
-  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+  CuAssertIntEquals_Msg(tc, "no columns", -1, answer);
 }
 
 void failure_short_length_to_win(CuTest *tc) {
@@ -111,9 +111,28 @@ void failure_short_length_to_win(CuTest *tc) {
   ct_initialize(num_rows, num_columns, array);
 
   answer = winner(num_rows, num_columns, -100, array);
-  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+  CuAssertIntEquals_Msg(tc, "length to win is too short", -1, answer);
 }
 
+void fail_short_diagonal(CuTest *tc) {
+
+  int num_rows = 7;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  array[6][0] = 0;
+  array[5][1] = 0;
+  array[4][2] = 0;
+  array[3][3] = 0;
+
+
+  answer = winner(num_rows, num_columns, 3, array);
+  CuAssertIntEquals_Msg(tc, "diagonal along bottom", 0, answer);
+}
+
+void 
 
 /*******************************************************************************************
  *
@@ -378,6 +397,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, failure_no_columns);
    SUITE_ADD_TEST(suite, failure_short_length_to_win);
    SUITE_ADD_TEST(suite, vertical_edge_case);
+   SUITE_ADD_TEST(suite, fail_short_diagonal);
    return suite;
 }
 
