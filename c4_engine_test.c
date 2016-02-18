@@ -43,6 +43,78 @@ void winner_horizontal_r0(CuTest *tc) {
   CuAssertIntEquals_Msg(tc, "0s in bottom row", 0, answer);
 }
 
+void failure_three_horizontal(CuTest *tc) {
+
+  int num_rows = 7;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  array[0][0] = 0;
+  array[0][1] = 0;
+  array[0][2] = 0;
+
+  answer = winner(num_rows, num_columns, 4, array);
+  CuAssertIntEquals_Msg(tc, "Not enough 0s in bottom row", -1, answer);
+}
+
+
+void vertical_edge_case(CuTest *tc) {
+
+  int num_rows = 7;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  array[6][0] = 0;
+  array[6][1] = 0;
+  array[6][2] = 0;
+  array[6][3] = 0;
+
+
+  answer = winner(num_rows, num_columns, 3, array);
+  CuAssertIntEquals_Msg(tc, "0 for rum_rows", 0, answer);
+}
+
+void failure_no_rows(CuTest *tc) {
+
+  int num_rows = 0;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  answer = winner(num_rows, num_columns, 4, array);
+  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+}
+
+void failure_no_columns(CuTest *tc) {
+
+  int num_rows = 7;
+  int num_columns = 0;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  answer = winner(num_rows, num_columns, 4, array);
+  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+}
+
+void failure_short_length_to_win(CuTest *tc) {
+
+  int num_rows = 7;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  answer = winner(num_rows, num_columns, -100, array);
+  CuAssertIntEquals_Msg(tc, "0 for rum_rows", -1, answer);
+}
+
+
 /*******************************************************************************************
  *
  * Test place_token function
@@ -297,11 +369,15 @@ CuSuite* c4_engine_suite() {
 
    SUITE_ADD_TEST(suite, winner_horizontal_r0);
    SUITE_ADD_TEST(suite, place_token_c1);
-
+   SUITE_ADD_TEST(suite, failure_three_horizontal);
    SUITE_ADD_TEST(suite, horizontal_row0);
    SUITE_ADD_TEST(suite, vertical_column1);
    SUITE_ADD_TEST(suite, forward_diagonal);
    SUITE_ADD_TEST(suite, backward_diagonal);
+   SUITE_ADD_TEST(suite, failure_no_rows);
+   SUITE_ADD_TEST(suite, failure_no_columns);
+   SUITE_ADD_TEST(suite, failure_short_length_to_win);
+   SUITE_ADD_TEST(suite, vertical_edge_case);
    return suite;
 }
 

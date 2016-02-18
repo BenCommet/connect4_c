@@ -90,14 +90,11 @@ int check_diagonal_right(int num_columns, int num_rows, int length_to_win, int a
     int player = -1;
 	for(int i = 0; i < num_rows - (length_to_win - 1); i++){
 		for(int j = 0; j < num_columns - (length_to_win - 1); j++){
-			printf("[%d][%d]%d\n", i, j, array[i][j]);
 			if(array[i][j] != -1){
-				printf("[%d][%d]%d\n", i, j, array[i][j]);
 				int temp = array[i][j];
 				int flag = 1;
 				for(int k = 1; k < length_to_win; k++){
 					if(temp != array[i + k][j + k]){
-						printf("[%d][%d]%d\n", i, j, array[i + k][j + k]);
 						flag = -1;
 					}
             	}
@@ -129,8 +126,11 @@ int place_token(int player, int column, int num_rows, int num_columns, int board
 
 int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows][num_columns]){
 
+	if(length_to_win < 1){
+		return -1;
+	}
 	if(num_rows == 0 || num_columns == 0){
-		return 2;
+		return -1;
 	}
 	int horizontal = check_horizontal(num_rows, num_columns, length_to_win, array);
 	int vertical = check_vertical(num_rows, num_columns, length_to_win, array);
